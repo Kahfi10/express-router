@@ -6,6 +6,8 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
+app.use('/admin', require('./routes/admin'));
 app.use('/theater', require('./routes/theater'));
 
 app.listen(port, () => {
