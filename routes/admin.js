@@ -9,6 +9,8 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
+    res.cookie('token', '382982878abcdef')
+    res.cookie('kahfi', 'admin')
     res.send('admin index')
 })
 
