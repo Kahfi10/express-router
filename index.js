@@ -34,6 +34,16 @@ app.get('/count', (req, res) => {
     res.send(`Count: ${req.session.count}`)
 })
 
+app.get('/register', (req, res) => {
+    const { username = 'Kahfi' } = req.query
+    req.session.username = username
+    res.redirect('/dashboard')
+})
+
+app.get('/dashboard', (req, res) => {
+    res.send(`Welcome ${req.session.username}`)
+})
+
 app.use('/admin', require('./routes/admin'));
 app.use('/theater', require('./routes/theater'));
 
