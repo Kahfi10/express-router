@@ -1,12 +1,19 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('secret'));
+app.use(session ({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true}
+}))
 
 app.get('/signingcode', (req, res) => {
     res.cookie('ganteng', 'kahfi', { signed: true })
@@ -16,6 +23,15 @@ app.get('/signingcode', (req, res) => {
 app.get('/verify', (req, res) => {
     const cookie = req.signedCookies
     res.send(cookie)
+})
+
+app.get('/count', (req, res) => {
+    if(req.session.count) {
+        req.session.count++
+    } else{
+        req.session.count = 1
+    }
+    res.send(`Count: ${req.session.count}`)
 })
 
 app.use('/admin', require('./routes/admin'));
